@@ -235,20 +235,23 @@ TEST(affix_allocator, deallocate_with_verify_prefix)
 {
     static auto constructed_count = 0ul;
     static auto destroyed_count = 0ul;
+    static void* prefix_location = nullptr;
     struct prefix
     {
         prefix()
         {
             constructed_count++;
+            prefix_location = this;
         }
         
         ~prefix()
         {
             destroyed_count++;
+            prefix_location = this;
         }
     };
     
-    using allocator_type = affix_allocator<mock_allocator, prefix, void_t, true>;
+    using allocator_type = affix_allocator<mock_allocator, prefix, void, true>;
     using helper_type = affix_allocator_helper<allocator_type>;
     allocator_type allocator;
     helper_type helper(allocator);
@@ -287,6 +290,7 @@ TEST(affix_allocator, deallocate_with_verify_prefix)
     auto block = allocator.allocate(16ul);
     ASSERT_EQ(block.address, blocks[0].data() + sizeof(prefix));
     ASSERT_EQ(block.size, 16ul);
+    ASSERT_EQ(prefix_location, blocks[0].data());
     
     allocator.deallocate(block);
     ASSERT_EQ(block.address, nullptr);
@@ -296,10 +300,78 @@ TEST(affix_allocator, deallocate_with_verify_prefix)
     ASSERT_EQ(deallocated_blocks[0].size, 16ul + sizeof(prefix));
     ASSERT_EQ(constructed_count, 1ul);
     ASSERT_EQ(destroyed_count, 1ul);
+    ASSERT_EQ(prefix_location, blocks[0].data());
 }
 
 TEST(affix_allocator, deallocate_with_verify_suffix)
 {
+    static auto constructed_count = 0ul;
+    static auto destroyed_count = 0ul;
+    static void* suffix_location = nullptr;
+    struct suffix
+    {
+        suffix()
+        {
+            constructed_count++;
+            suffix_location = this;
+        }
+        
+        ~suffix()
+        {
+            destroyed_count++;
+            suffix_location = this;
+        }
+    };
+    
+    using allocator_type = affix_allocator<mock_allocator, void, suffix, true>;
+    using helper_type = affix_allocator_helper<allocator_type>;
+    allocator_type allocator;
+    helper_type helper(allocator);
 
+    vector<array<uint8_t, 128>> blocks;
+    blocks.reserve(5);
+
+    ON_CALL(helper.get_allocator(), allocate(A<size_t>()))
+            .WillByDefault(
+                    Invoke([&blocks](std::size_t rs) -> memory_block
+                    {
+                        assert(blocks.size() < 5);
+
+                        blocks.emplace_back();
+                        return { blocks.back().data(), rs };
+                    }));
+    ON_CALL(helper.get_allocator(), owns(A<memory_block&>()))
+            .WillByDefault(
+                    Return(true));
+    vector<memory_block> deallocated_blocks;
+    ON_CALL(helper.get_allocator(), deallocate(A<memory_block&>()))
+            .WillByDefault(
+                    Invoke([&deallocated_blocks](memory_block& block)
+                    {
+                        deallocated_blocks.push_back(block);
+                        block = { nullptr, 0ul };
+                    }));
+    
+    EXPECT_CALL(helper.get_allocator(), allocate(A<size_t>()))
+            .Times(1);
+    EXPECT_CALL(helper.get_allocator(), owns(A<memory_block&>()))
+            .Times(1);
+    EXPECT_CALL(helper.get_allocator(), deallocate(A<memory_block&>()))
+            .Times(1);
+
+    auto block = allocator.allocate(16ul);
+    ASSERT_EQ(block.address, blocks[0].data());
+    ASSERT_EQ(block.size, 16ul);
+    ASSERT_EQ(suffix_location, blocks[0].data() + 16ul);
+    
+    allocator.deallocate(block);
+    ASSERT_EQ(block.address, nullptr);
+    ASSERT_EQ(block.size, 0ul);
+    ASSERT_EQ(deallocated_blocks.size(), 1ul);
+    ASSERT_EQ(deallocated_blocks[0].address, blocks[0].data());
+    ASSERT_EQ(deallocated_blocks[0].size, 16ul + sizeof(suffix));
+    ASSERT_EQ(constructed_count, 1ul);
+    ASSERT_EQ(destroyed_count, 1ul);
+    ASSERT_EQ(suffix_location, blocks[0].data() + 16ul);
 }
 

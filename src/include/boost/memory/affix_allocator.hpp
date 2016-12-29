@@ -66,7 +66,7 @@ public:
     bool owns(memory_block& block);
 
 private:
-    using this_affix_allocator_type = affix_allocator<allocator, prefix, suffix>;
+    using this_affix_allocator_type = affix_allocator<allocator, prefix, suffix, verify>;
     friend affix_allocator_helper<this_affix_allocator_type>;
 
     static std::size_t size_of_allocation(std::size_t size) noexcept;
