@@ -22,7 +22,7 @@ public:
      * @param size Requested allocation size.
      * @return Allocated memory block description. 
      */
-    memory_block allocate(std::size_t size);
+    memory_block allocate(std::size_t size = 0);
     
     /**
      * @breif Does nothing.
@@ -38,11 +38,6 @@ public:
      * @return true if this allocator owns the given block, false otherwise. 
      */
     bool owns(memory_block& block);
-    
-    /**
-     * @brief A default, static instance of *null_allocator*.
-     */
-    static null_allocator default_instance;
 };
     
 } }

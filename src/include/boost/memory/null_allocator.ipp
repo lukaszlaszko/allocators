@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace boost { namespace memory {
+namespace boost { namespace memory {    
   
 inline memory_block null_allocator::allocate(std::size_t size)
 {
