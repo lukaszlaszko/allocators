@@ -1,7 +1,6 @@
 #pragma once
 
 #include <boost/memory/memory_block.hpp>
-#include <boost/utils/property.hpp>
 
 
 namespace boost { namespace memory {
