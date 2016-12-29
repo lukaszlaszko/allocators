@@ -15,7 +15,7 @@ static constexpr bool is_power_of_2(std::size_t x) noexcept;
 
 /**
  * @brief Aligns the given address forward to the given alignment boundary.
- * 
+ * @details
  * Aligns the address to itself or any higher address dividable by *alignment*.
  * 
  * @param address An address to be aligned.
