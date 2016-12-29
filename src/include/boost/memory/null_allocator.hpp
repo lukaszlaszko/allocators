@@ -38,6 +38,11 @@ public:
      * @return true if this allocator owns the given block, false otherwise. 
      */
     bool owns(memory_block& block);
+    
+    /**
+     * @brief A default, static instance of *null_allocator*.
+     */
+    static null_allocator default_instance;
 };
     
 } }
