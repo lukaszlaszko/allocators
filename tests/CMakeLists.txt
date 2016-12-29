@@ -10,7 +10,8 @@ add_executable(tests
         stack_allocator_tests.cpp
         free_list_tests.cpp
         segregator_tests.cpp
-        bucketizer_tests.cpp)
+        bucketizer_tests.cpp
+        affix_allocator_tests.cpp)
 
 target_link_libraries(tests
         ${GTEST_LIBRARIES}
