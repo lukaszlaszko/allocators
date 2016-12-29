@@ -2,8 +2,23 @@
 
 #include <boost/memory/memory_block.hpp>
 
+#include <iterator>
+
 
 namespace boost { namespace memory {
+    
+template <typename bucketizer_type>
+class bucketizer_helper
+{
+public:
+    bucketizer_helper(bucketizer_type& instance);
+    
+    template <std::size_t bucket>
+    auto& get() noexcept;
+    
+private:
+    bucketizer_type& instance_;
+};
 
 template <
         typename allocator,
@@ -13,17 +28,22 @@ template <
 class bucketizer
 {
 public:
+    using allocator_type = allocator;
+    
+    static const std::size_t buckets_count = (max - min) / step;
+    static const std::size_t min_size = min;
+    static const std::size_t max_size = max;
+    static const std::size_t step_size = step;
+    
     memory_block allocate(std::size_t size);
     void deallocate(memory_block& block);
     
     bool owns(memory_block& block);
     
-    template <std::size_t bucket>
-    allocator& get() noexcept; 
-    
-    static const std::size_t buckets_count = (max - min) / step;
-    
 private:
+    using this_bucketizer_type = bucketizer<allocator, min, max, step>;
+    friend bucketizer_helper<this_bucketizer_type>;
+    
     allocator buckets_[(max - min) / step];
 };
     

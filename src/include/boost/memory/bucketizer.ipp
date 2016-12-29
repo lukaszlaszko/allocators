@@ -2,7 +2,28 @@
 
 
 namespace boost { namespace memory {
-   
+  
+template <typename bucketizer_type>
+bucketizer_helper<bucketizer_type>::bucketizer_helper(bucketizer_type& instance)
+        :
+    instance_(instance)
+{
+    
+}
+
+template <typename bucketizer_type>
+template <std::size_t bucket>
+inline auto& bucketizer_helper<bucketizer_type>::get() noexcept
+{
+    static const auto min = bucketizer_type::min_size;
+    static const auto max = bucketizer_type::max_size;
+    static const auto step = bucketizer_type::step_size;
+    
+    static_assert(bucket < (max - min) / step, "Wrong bucket number!");
+    
+    return instance_.buckets_[bucket];
+}    
+    
 template <
         typename allocator,
         std::size_t min,
@@ -65,23 +86,10 @@ inline bool bucketizer<
         
         return bucket.owns(block);
     }
-}
-
-template <
-        typename allocator,
-        std::size_t min,
-        std::size_t max,
-        std::size_t step>
-template <std::size_t bucket>
-inline allocator& bucketizer<
-        allocator,
-        min,
-        max,
-        step>::get() noexcept
-{
-    static_assert(bucket < (max - min) / step, "Wrong bucket number!");
-    
-    return buckets_[bucket];
+    else
+    {
+        return false;
+    }
 }
     
 } }

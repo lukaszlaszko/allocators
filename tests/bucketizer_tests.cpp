@@ -19,16 +19,20 @@ public:
 
 TEST(bucketizer, allocate_successful)
 {
-    bucketizer<mock_allocator, 4, 20, 5> allocator;
+    using allocator_type = bucketizer<mock_allocator, 4, 20, 5>;
+    using helper_type = bucketizer_helper<allocator_type>;
     
-    ON_CALL(allocator.get<1>(), allocate(A<size_t>()))
+    allocator_type allocator;
+    helper_type helper(allocator);
+    
+    ON_CALL(helper.get<1>(), allocate(A<size_t>()))
             .WillByDefault(
                     Invoke([&allocator](std::size_t rs) -> memory_block 
                     { 
                         return { &allocator, rs }; 
                     }));
 
-    EXPECT_CALL(allocator.get<1>(), allocate(A<size_t>()))
+    EXPECT_CALL(helper.get<1>(), allocate(A<size_t>()))
             .Times(1);
     
     auto block = allocator.allocate(11ul);
@@ -56,16 +60,20 @@ TEST(bucketizer, allocate_over_range)
 
 TEST(bucketizer, deallocate_successful)
 {
-    bucketizer<mock_allocator, 4, 20, 5> allocator;
+    using allocator_type = bucketizer<mock_allocator, 4, 20, 5>;
+    using helper_type = bucketizer_helper<allocator_type>;
     
-    ON_CALL(allocator.get<1>(), deallocate(A<memory_block&>()))
+    allocator_type allocator;
+    helper_type helper(allocator);
+    
+    ON_CALL(helper.get<1>(), deallocate(A<memory_block&>()))
             .WillByDefault(
                     Invoke([&allocator](memory_block& mb) 
                     { 
                         mb = { nullptr, 0ul }; 
                     }));
 
-    EXPECT_CALL(allocator.get<1>(), deallocate(A<memory_block&>()))
+    EXPECT_CALL(helper.get<1>(), deallocate(A<memory_block&>()))
             .Times(1);
     
     memory_block block { &allocator, 11ul };
@@ -96,13 +104,17 @@ TEST(bucketizer, deallocate_over_range)
 
 TEST(bucketizer, owns_successful)
 {
-    bucketizer<mock_allocator, 4, 20, 5> allocator;
+    using allocator_type = bucketizer<mock_allocator, 4, 20, 5>;
+    using helper_type = bucketizer_helper<allocator_type>;
     
-    ON_CALL(allocator.get<1>(), owns(A<memory_block&>()))
+    allocator_type allocator;
+    helper_type helper(allocator);
+    
+    ON_CALL(helper.get<1>(), owns(A<memory_block&>()))
             .WillByDefault(
                     Return(true));
 
-    EXPECT_CALL(allocator.get<1>(), owns(A<memory_block&>()))
+    EXPECT_CALL(helper.get<1>(), owns(A<memory_block&>()))
             .Times(1);
     
     memory_block block { &allocator, 11ul };
