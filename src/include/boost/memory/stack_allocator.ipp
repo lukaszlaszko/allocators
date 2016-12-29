@@ -1,5 +1,8 @@
 #pragma once
 
+#include "null_allocator.hpp"
+
+
 
 namespace boost { namespace memory {
   
@@ -19,7 +22,7 @@ inline memory_block stack_allocator<capacity, alignment>::allocate(std::size_t s
     }
     else
     {
-        return { nullptr, 0ul };
+        return null_allocator_.allocate();
     }
 }
 

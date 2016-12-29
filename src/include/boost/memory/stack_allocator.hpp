@@ -2,6 +2,7 @@
 
 #include <boost/memory/alignment.hpp>
 #include <boost/memory/memory_block.hpp>
+#include <boost/memory/null_allocator.hpp>
 
 #include <cstdint>
 
@@ -47,6 +48,8 @@ public:
 private:
     std::uint8_t reserved_block_[capacity];
     std::uint8_t* current_ { align_forward<alignment>(reserved_block_) };
+    
+    null_allocator null_allocator_;
 };
 
 } }
