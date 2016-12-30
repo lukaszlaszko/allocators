@@ -17,13 +17,13 @@ static constexpr bool is_power_of_2(std::size_t x) noexcept
 }    
     
 template <>
-inline std::uint8_t* align_forward<1>(std::uint8_t* address) noexcept
+inline constexpr std::uint8_t* align_forward<1>(std::uint8_t* address) noexcept
 {
     return address;
 }    
 
 template <std::size_t alignment>
-inline std::uint8_t* align_forward(std::uint8_t* address) noexcept
+inline constexpr std::uint8_t* align_forward(std::uint8_t* address) noexcept
 {
     static_assert(is_power_of_2(alignment), "alignment must be a power of 2");
     
@@ -34,13 +34,13 @@ inline std::uint8_t* align_forward(std::uint8_t* address) noexcept
 }
 
 template <>
-inline std::uint8_t* align_backward<1>(std::uint8_t* address) noexcept
+inline constexpr std::uint8_t* align_backward<1>(std::uint8_t* address) noexcept
 {
     return address;
 }    
 
 template <std::size_t alignment>
-inline std::uint8_t* align_backward(std::uint8_t* address) noexcept
+inline constexpr std::uint8_t* align_backward(std::uint8_t* address) noexcept
 {
     static_assert(is_power_of_2(alignment), "alignment must be a power of 2");
     
@@ -48,6 +48,22 @@ inline std::uint8_t* align_backward(std::uint8_t* address) noexcept
     return address_ptr % alignment == 0
          ? address
          : reinterpret_cast<std::uint8_t*>(address_ptr - (address_ptr % alignment));
+}
+
+template <>
+inline constexpr std::size_t align_size<1>(std::size_t size) noexcept
+{
+    return size;
+}    
+
+template <std::size_t alignment>
+inline constexpr std::size_t align_size(std::size_t size) noexcept
+{
+    static_assert(is_power_of_2(alignment), "alignment must be a power of 2");
+    
+    return size % alignment == 0
+         ? size
+         : size + (alignment - (size % alignment));
 }
     
 } }

@@ -26,7 +26,7 @@ static constexpr bool is_power_of_2(std::size_t x) noexcept;
  * @return Address aligned forward to 
  */
 template <std::size_t alignment>
-inline std::uint8_t* align_forward(std::uint8_t* address) noexcept;
+inline constexpr std::uint8_t* align_forward(std::uint8_t* address) noexcept;
 
 /**
  * @brief Aligns the given address backwards to the given alignment boundary.
@@ -37,7 +37,19 @@ inline std::uint8_t* align_forward(std::uint8_t* address) noexcept;
  * @return Address aligned forward to 
  */
 template <std::size_t alignment>
-inline std::uint8_t* align_backward(std::uint8_t* address) noexcept;
+inline constexpr std::uint8_t* align_backward(std::uint8_t* address) noexcept;
+
+/**
+ * @brief Aligns size to the closes multiplication of the alignment
+ * @details
+ * 
+ * Finds the closes multiplication of alignment for the given size.
+ * 
+ * @param size The size to align
+ * @return Aligned size.
+ */
+template <std::size_t alignment>
+inline constexpr std::size_t align_size(std::size_t size) noexcept;
 
 } }
 
