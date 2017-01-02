@@ -4,19 +4,31 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #pragma once
 
-#include "memory_block.hpp"
+#include <boost/memory/memory_block.hpp>
 
+#include <new>
 #include <cstdlib>
-#include <stdexcept>
 
 
 namespace boost { namespace memory {
-  
+
+    
+mallocator* mallocator::self_allocate()
+{
+    auto result = malloc(sizeof(mallocator));
+    if (result == NULL)
+        throw std::bad_alloc();
+    
+    mallocator* instance = reinterpret_cast<mallocator*>(result);
+    new (instance) mallocator;
+    return instance;
+}    
+    
 inline memory_block mallocator::allocate(std::size_t size)
 {
     auto result = malloc(size);
     if (result == NULL)
-        throw std::runtime_error("malloc failed!");
+        throw std::bad_alloc();
     
     return { result, size };
 }

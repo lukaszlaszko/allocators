@@ -15,6 +15,16 @@ class mallocator
 {
 public:
     /**
+     * @brief Allocates an instance of mallocator on the heap.
+     * @details
+     * 
+     * In certain situations it's required to allocate an instance of this allocator
+     * on the heap. This method is used to do so.
+     * @return A pointer to self allocated instance of mallocator.
+     */
+    static mallocator* self_allocate();
+    
+    /**
      * @brief Allocates a *memory_block* using *malloc*.
      * 
      * @param size

@@ -7,6 +7,12 @@ using namespace std;
 using namespace boost::memory;
 
 
+TEST(mallocator, self_allocate)
+{
+    auto self_instance = mallocator::self_allocate();
+    ASSERT_NE(self_instance, nullptr);
+}
+
 TEST(mallocator, allocate)
 {
     mallocator allocator;
