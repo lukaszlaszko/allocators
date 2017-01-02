@@ -9,6 +9,27 @@
 
 
 namespace boost { namespace memory {
+    
+/**
+ * No alignment.
+ */
+static constexpr std::size_t NO_ALIGNMENT = 1ul;
+
+#if defined(__amd64__) || defined(__aarch64__)
+/**
+ * Alignment to word size. On some platforms it's required to access data on 
+ * word or half-word aligned addresses.
+ * http://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Data/aligned.html
+ * http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0552a/BABFAIGG.html
+ */
+static constexpr std::size_t WORD_ALIGNMENT = 8ul;
+static constexpr std::size_t HALF_WORD_ALIGNMENT = 4ul;
+#elif defined(__i686__) || defined(__arm__)
+static constexpr std::size_t WORD_ALIGNMENT = 4ul;
+static constexpr std::size_t HALF_WORD_ALIGNMENT = 2ul;
+#else
+#   error Unsupported CPU architecture
+#endif
 
 /**
  * @brief Helper function used to identify if the given number is a power of 2. 
