@@ -131,14 +131,16 @@ inline bool bitmapped_block<
     for (auto i = 0ul; i < size; i++)
     {
         auto& flag = flags_[i];
-        if ((flag & all_mask) != 0)
+        if ((flag & all_mask) != all_mask)
         {
             for (auto j = 0_ui8; j < 8_ui8; j++)
             {
                 auto mask = flag_mask(j);
-                if ((flag & mask) != 0_ui8)
+                if ((flag & mask) == 0_ui8)
                 {
                     flag |= mask;
+                    
+                    index = i * 8ul + j;
                     return true;
                 }
             }
@@ -161,18 +163,21 @@ inline memory_block bitmapped_block<
         capacity,
         alignment>::allocate(std::size_t size)
 {
+    if (size < min || max < size)
+        return null_allocator_.allocate();
+    
     if (allocated_block_ == nullptr)
     {
         auto allocation_size = sizeof(bitmap_type) 
                 + aligned_max_size * capacity 
-                + alignment;
+                + (alignment > NO_ALIGNMENT ? alignment : 0ul);
         allocated_block_ = allocator_.allocate(allocation_size);
         
-        bitmap_ = reinterpret_cast<bitmap_type*>(allocated_block_->address);
+        bitmap_ = reinterpret_cast<bitmap_type*>(allocated_block_.address);
     }
     
     std::size_t index;
-    if (bitmap_->claim(index))
+    if (bitmap_->claim(index) && index < capacity)
     {
         auto first_address = align_forward<alignment>(allocated_block_ + sizeof(bitmap_type));
         auto claimed_address = first_address + aligned_max_size * index;
@@ -200,11 +205,12 @@ inline void bitmapped_block<
 {
     if (owns(block))
     {
-        auto start_address = align_forward<alignment>(allocated_block_ + sizeof(bitmap_type));
-        auto offset = block - start_address;
+        auto first_address = align_forward<alignment>(allocated_block_ + sizeof(bitmap_type));
+        auto offset = block - first_address;
         auto index = offset / aligned_max_size;
         
         bitmap_->reset(index);
+        null_allocator_.deallocate(block);
     }
 }
 

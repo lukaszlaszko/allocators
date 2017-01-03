@@ -43,11 +43,12 @@ template <
         std::size_t min,
         std::size_t max,
         std::size_t capacity,
-        std::size_t alignment=1>
+        std::size_t alignment=NO_ALIGNMENT>
 class bitmapped_block
 {
 public:
     static_assert(is_power_of_2(capacity), "capacity has to be a power of 2!");
+    static_assert(alignment > 0, "alignment has to be equal or greater than 1!");
 
     template <std::size_t size>
     class bitmap
@@ -103,7 +104,7 @@ private:
     allocator allocator_;
     null_allocator null_allocator_;
     
-    memory_block* allocated_block_ { nullptr };
+    memory_block allocated_block_ { nullptr, 0ul };
     bitmap_type* bitmap_ { nullptr };
 };
 
