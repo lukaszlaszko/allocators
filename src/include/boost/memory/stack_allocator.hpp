@@ -20,7 +20,7 @@ namespace boost { namespace memory {
  * @tparam capacity Number of bytes to reserve on the stack.
  * @tparam alignment Defines alignment boundary for allocated blocks. 
  */
-template <std::size_t capacity, std::size_t alignment=1>
+template <std::size_t capacity, std::size_t alignment=NO_ALIGNMENT>
 class stack_allocator
 {
 public:
