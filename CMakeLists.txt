@@ -24,3 +24,4 @@ enable_testing()
 # include subdirectories
 add_subdirectory(external)
 add_subdirectory(tests)
+add_subdirectory(samples)
