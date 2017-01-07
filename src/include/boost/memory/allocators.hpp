@@ -14,53 +14,14 @@
 #include <boost/memory/affix_allocator.hpp>
 #include <boost/memory/bitmapped_block.hpp>
 
+#include <boost/utils/backtrace.hpp>
+
 #include <memory>
 #include <new>
 #include <unordered_map>
 #include <utility>
 #include <stdexcept>
 
-
-template <typename T>
-class std_support_allocator
-{
-public:
-    using size_type = std::size_t;
-    using value_type = T;
-    using pointer = T*;
-    using const_pointer = const T*;
-    
-    std_support_allocator() throw() 
-    { }
-    std_support_allocator(const std_support_allocator &a) throw() 
-    { }
-    template <class U>                    
-    std_support_allocator(const std_support_allocator<U> &a) throw()
-    { }
-    ~std_support_allocator() throw() 
-    { }
-
-    template<typename _Tp1>
-    struct rebind
-    {
-        using other = std_support_allocator<_Tp1>;
-    };
-
-    pointer allocate(size_type n, const void *hint=0)
-    {
-        auto block = mallocator_.allocate(n);
-        return reinterpret_cast<pointer>(block.address);
-    }
-
-    void deallocate(pointer p, size_type n)
-    {
-        boost::memory::memory_block block { p, n };
-        mallocator_.deallocate(block);
-    }
-    
-private:
-    boost::memory::mallocator mallocator_;
-};
 
 struct nop
 {
@@ -73,15 +34,11 @@ using nop_unique_ptr = std::unique_ptr<T, nop>;
 
 // DEFINE_ALLOCATOR macro
 #ifndef DEFINE_ALLOCATOR
-#define DEFINE_ALLOCATOR(allocator_type)\
+#define DEFINE_ALLOCATOR_FULL(allocator_type, backtrace_enabled) \
 \
 using registered_allocator_type = allocator_type; \
 using size_map_key_type = void*; \
 using size_map_value_type = std::size_t; \
-using size_map_allocator_type = \
-        std_support_allocator<std::pair< \
-                const size_map_key_type, \
-                size_map_value_type>>; \
 using size_map_type = std::unordered_map< \
         size_map_key_type, \
         size_map_value_type, \
@@ -97,6 +54,12 @@ void* operator new(std::size_t sz) \
 { \
     if (allocator_handle && !allocation_pending) \
     { \
+        if (backtrace_enabled) \
+        { \
+            boost::utils::backtrace bt; \
+            std::cerr << "++++ custom allocator at " << std::endl; \
+            std::cerr << bt << std::endl; \
+        } \
         allocation_pending = true; \
         auto block = allocator_handle->allocate(sz); \
         size_map_handle.operator *()[block.address] = block.size; \
@@ -105,6 +68,12 @@ void* operator new(std::size_t sz) \
     } \
     else \
     { \
+        if (backtrace_enabled) \
+        { \
+            boost::utils::backtrace bt; \
+            std::cerr << "++++ default allocator at " << std::endl; \
+            std::cerr << bt << std::endl; \
+        } \
         auto block = default_allocator.allocate(sz); \
         return block.address; \
     } \
@@ -121,7 +90,18 @@ void operator delete(void* ptr) noexcept \
             allocator_handle->deallocate(block); \
         } \
     } \
-} \
+    else \
+    { \
+        memory_block block { ptr, 1ul }; \
+        default_allocator.deallocate(block); \
+    } \
+}
+
+#define DEFINE_ALLOCATOR(allocator_type) \
+    DEFINE_ALLOCATOR_FULL(allocator_type, false)
+
+#define DEFINE_ALLOCATOR_WITH_TRACE(allocator_type) \
+    DEFINE_ALLOCATOR_FULL(allocator_type, true)
 
 #endif
 
