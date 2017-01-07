@@ -20,7 +20,7 @@ using my_allocator
                         32,
                         2048 / 32>,
                 mallocator>;
-DEFINE_ALLOCATOR(my_allocator);
+DEFINE_ALLOCATOR_WITH_TRACE(my_allocator);
 
 int main(int argc, char** argv)
 {
