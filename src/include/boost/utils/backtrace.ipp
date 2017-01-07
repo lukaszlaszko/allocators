@@ -7,8 +7,6 @@
 
 #include <execinfo.h>
 
-#include "backtrace.hpp"
-
 
 namespace boost { namespace utils {
     
