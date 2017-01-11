@@ -38,26 +38,29 @@ In order to build unit tests and samples, cmake (3.2 or newer), internet access 
 To build:
 
 1. Clone this repository
-   ```
-   $ git clone git clone https://bitbucket.org/lukaszlaszko/allocators.git
-   ```  
+
+    ```
+    $ git clone https://bitbucket.org/lukaszlaszko/allocators.git
+    ```  
 
 2. Configure with cmake
-   ```
-   $ mkdir bin
-   $ cd bin
-   $ cmake ..
-   ```
+
+    ```
+    $ mkdir bin
+    $ cd bin
+    $ cmake ..
+    ```
 
 3. Build with cmake
-   ```
-   $ cmake --build . --target all
-   ```
+
+    ```
+    $ cmake --build . --target all
+    ```
 
 4. Run unit tests
-   
-   ```
-   $ ctest --verbose
-   ```
+
+    ```
+    $ ctest --verbose
+    ```
 
 Latest bitbucket build results can be observed under this [link](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/).
