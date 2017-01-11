@@ -44,7 +44,7 @@ To build:
     ```  
 
 2. Configure with cmake
-
+    
     ```
     $ mkdir bin
     $ cd bin
