@@ -7,6 +7,8 @@
 #include <boost/memory/alignment.hpp>
 #include <boost/utils/literals.hpp>
 
+#include <cstring>
+
 
 namespace boost { namespace memory {
     
@@ -102,6 +104,24 @@ template <
         std::size_t alignment>
 template <
         std::size_t size>
+inline void bitmapped_block<
+        allocator,
+        min,
+        max,
+        capacity,
+        alignment>::bitmap<size>::reset_all()
+{
+    std::memset(flags_, 0, size);
+}
+
+template <
+        typename allocator,
+        std::size_t min,
+        std::size_t max,
+        std::size_t capacity, 
+        std::size_t alignment>
+template <
+        std::size_t size>
 inline bool bitmapped_block<
         allocator,
         min,
@@ -174,6 +194,7 @@ inline memory_block bitmapped_block<
         allocated_block_ = allocator_.allocate(allocation_size);
         
         bitmap_ = reinterpret_cast<bitmap_type*>(allocated_block_.address);
+        bitmap_->reset_all();
     }
     
     std::size_t index;

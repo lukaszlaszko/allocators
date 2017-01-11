@@ -56,6 +56,7 @@ public:
     public:
         void set(std::size_t index);
         void reset(std::size_t index);
+        void reset_all();
         bool is_set(std::size_t index);
         
         bool claim(std::size_t& index);
