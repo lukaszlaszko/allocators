@@ -39,28 +39,24 @@ To build:
 
 1. Clone this repository
 
-    ```
-    $ git clone https://bitbucket.org/lukaszlaszko/allocators.git
-    ```  
+        #!shell
+        $ git clone https://bitbucket.org/lukaszlaszko/allocators.git 
 
 2. Configure with cmake
     
-    ```
-    $ mkdir bin
-    $ cd bin
-    $ cmake ..
-    ```
+        #!shell
+        $ mkdir bin
+        $ cd bin
+        $ cmake ..
 
 3. Build with cmake
 
-    ```
-    $ cmake --build . --target all
-    ```
+        #!shell
+        $ cmake --build . --target all
 
 4. Run unit tests
 
-    ```
-    $ ctest --verbose
-    ```
+        #!shell
+        $ ctest --verbose
 
 Latest bitbucket build results can be observed under this [link](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/).
