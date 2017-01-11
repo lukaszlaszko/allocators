@@ -11,8 +11,8 @@ add_executable(tests
         free_list_tests.cpp
         segregator_tests.cpp
         bucketizer_tests.cpp
-        affix_allocator_tests.cpp)
-        #bitmapped_block_tests.cpp)
+        affix_allocator_tests.cpp
+        bitmapped_block_tests.cpp)
 
 target_link_libraries(tests
         ${GTEST_LIBRARIES}
