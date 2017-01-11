@@ -7,7 +7,7 @@
 #include <boost/memory/alignment.hpp>
 #include <boost/utils/literals.hpp>
 
-#include <string>
+#include <cstring>
 
 
 namespace boost { namespace memory {
