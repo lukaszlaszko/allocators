@@ -31,6 +31,9 @@ pipelines:
                 - mkdir bin_doc
                 - cd bin_doc
                 - doxygen ../docs/doxygen.cfg
+                - mkdir -p allocators/$BITBUCKET_BRANCH
+                - rm -rf allocators/$BITBUCKET_BRANCH/*
+                - mv html/* allocators/$BITBUCKET_BRANCH  
 
   tags:
     release-*:
