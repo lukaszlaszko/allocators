@@ -4,29 +4,27 @@ pipelines:
   default:
     - step:
         script:
-          - export PATH=${PATH}:/opt/clang+llvm-3.9.0-x86_64-linux-gnu-ubuntu-16.04/bin
           - mkdir bin
           - cd bin
-          - cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
+          - cmake -GNinja -DCMAKE_C_COMPILER=clang-3.9 -DCMAKE_CXX_COMPILER=clang++-3.9 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
           - cmake --build . --target all
           - ctest --verbose
           - cd tests
-          - llvm-profdata merge -sparse default.profraw -o default.profdata
-          - llvm-cov report ./tests --instr-profile=default.profdata
+          - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
+          - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
           
   branches:
     feature-add-doxygen-support:
         - step:
             script:
-                - export PATH=${PATH}:/opt/clang+llvm-3.9.0-x86_64-linux-gnu-ubuntu-16.04/bin
                 - mkdir bin
                 - cd bin
-                - cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
+                - cmake -GNinja -DCMAKE_C_COMPILER=clang-3.9 -DCMAKE_CXX_COMPILER=clang++-3.9 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
                 - cmake --build . --target all
                 - ctest --verbose
                 - cd tests
-                - llvm-profdata merge -sparse default.profraw -o default.profdata
-                - llvm-cov report ./tests --instr-profile=default.profdata
+                - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
+                - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
                 - git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
                 - cd bin_doc
@@ -42,15 +40,14 @@ pipelines:
     release-*:
         - step:
             script:
-                - export PATH=${PATH}:/opt/clang+llvm-3.9.0-x86_64-linux-gnu-ubuntu-16.04/bin
                 - mkdir bin
                 - cd bin
-                - cmake -GNinja -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
+                - cmake -GNinja -DCMAKE_C_COMPILER=clang-3.9 -DCMAKE_CXX_COMPILER=clang++-3.9 -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS='-fprofile-instr-generate -fcoverage-mapping' -DCMAKE_EXE_LINKER_FLAGS='-fprofile-instr-generate -fcoverage-mapping' ..
                 - cmake --build . --target all
                 - ctest --verbose
                 - cd tests
-                - llvm-profdata merge -sparse default.profraw -o default.profdata
-                - llvm-cov report ./tests --instr-profile=default.profdata
+                - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
+                - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
                 - mkdir bin_doc
                 - cd bin_doc
