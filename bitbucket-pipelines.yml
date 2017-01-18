@@ -26,7 +26,7 @@ pipelines:
                 - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
                 - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
-                - git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
+                - yes | git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
                 - cd bin_doc
                 - doxygen ../docs/doxygen.cfg
                 - mkdir -p allocators/$BITBUCKET_BRANCH
