@@ -35,7 +35,7 @@ pipelines:
                 - GIT_TERMINAL_PROMPT=0 git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
                 - docs/build_docs.sh -t bin_doc
                 - cd bin_doc
-                - git add -all
+                - git add --all
                 - git commit -m "docs for $BITBUCKET_COMMIT"
                 - git push
   tags:
