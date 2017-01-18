@@ -26,14 +26,12 @@ pipelines:
                 - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
                 - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
-                - ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts 2>/dev/null
+                - echo $PRIVATE_KEY > ~/.ssh/id_rsa.tmp
+                - base64 -d ~/.ssh/id_rsa.tmp > ~/.ssh/id_rsa
+                - chmod 600 ~/.ssh/id_rsa
+                - base64 ~/.ssh/id_rsa
                 - git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
-                - cd bin_doc
-                - doxygen ../docs/doxygen.cfg
-                - mkdir -p allocators/$BITBUCKET_BRANCH
-                - rm -rf allocators/$BITBUCKET_BRANCH/*
-                - mv html/* allocators/$BITBUCKET_BRANCH
-                - cd allocators/$BITBUCKET_BRANCH
+                - docs/build_docs.sh -t bin_doc
                 - git add -all
                 - git commit -m "docs for $BITBUCKET_COMMIT"
                 - git push
