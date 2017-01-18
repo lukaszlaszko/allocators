@@ -26,6 +26,7 @@ pipelines:
                 - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
                 - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
+                - mkdir -p ~/.ssh
                 - echo $PRIVATE_KEY > ~/.ssh/id_rsa.tmp
                 - base64 -d ~/.ssh/id_rsa.tmp > ~/.ssh/id_rsa
                 - chmod 600 ~/.ssh/id_rsa
