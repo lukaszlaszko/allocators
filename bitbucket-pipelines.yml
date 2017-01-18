@@ -26,7 +26,8 @@ pipelines:
                 - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
                 - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
                 - cd ../..
-                - yes | git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
+                - if [ ! -n "$(grep "^bitbucket.org " ~/.ssh/known_hosts)" ]; then ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts 2>/dev/null; fi
+                - git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
                 - cd bin_doc
                 - doxygen ../docs/doxygen.cfg
                 - mkdir -p allocators/$BITBUCKET_BRANCH
