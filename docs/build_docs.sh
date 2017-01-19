@@ -1,27 +1,35 @@
 #!/usr/bin/env bash
 
-while [[ $# -gt 1 ]]
-do
-key="$1"
-
-case $key in
-    -t|--targetdir)
-    target_dir="$2"
-    shift # past argument
-    ;;
-    *)
-            # unknown option
-    ;;
-esac
-shift # past argument or value
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+        # This is a flag type option. Will catch either -v or --verbose
+        -v|--verbose)
+        verbose=1
+        ;;
+        # This is an arg value type option. Will catch -o value or --output-file value
+        -t|--targetdir)
+        shift # past the key and to the value
+        target_dir="$1"
+        ;;
+        *)
+        # Do whatever you want with extra options
+        echo "Unknown option '$key'"
+        ;;
+    esac
+    # Shift after checking all the cases to get the next option
+    shift
 done
 
-set -o pipefail  # trace ERR through pipes
+if [[ ${verbose+x} ]]; then
+    set -x
+fi
 set -o errtrace  # trace ERR through 'time command' and other functions
 set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 
 echoerr() { printf "%s\n" "$*" >&2; }
+echoverbose() { if [[ ${verbose+x} ]]; then printf "%s\n" "$*" >&2; fi }
 # cleanup() 
 # {
 #     # cleanup code
@@ -49,6 +57,11 @@ fi
 if [ ! -d "$target_dir" ]; then
     mkdir -p $target_dir
 fi
+
+# verbose info
+echoverbose "repository_dir: $repository_dir"
+echoverbose "docs_dir: $docs_dir"
+echoverbose "target_dir: $target_dir"
 
 # invoke doxygen
 pushd $target_dir > /dev/null
