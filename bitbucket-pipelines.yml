@@ -31,8 +31,8 @@ pipelines:
                 - base64 -d ~/.ssh/id_rsa.tmp > ~/.ssh/id_rsa
                 - chmod 600 ~/.ssh/id_rsa
                 - base64 ~/.ssh/id_rsa
-                - ssh-keyscan bitbucket.org >> ~/.ssh/known_hosts
-                - GIT_TERMINAL_PROMPT=0 git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
+                - echo "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+                - git clone git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git bin_doc
                 - docs/build_docs.sh -t bin_doc
                 - cd bin_doc
                 - git add --all
