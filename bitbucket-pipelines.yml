@@ -24,4 +24,4 @@ pipelines:
             - docs/build_docs.sh -t bin_doc
             - cd bin_doc
             - git add --all
-            - '[[ ! -z $(git status -uno --porcelain) ]] && git commit -m "docs for $BITBUCKET_COMMIT" && git push'
+            - 'if [[ ! -z $(git status -uno --porcelain) ]]; then git commit -m "docs for $BITBUCKET_COMMIT" && git push; fi'
