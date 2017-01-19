@@ -38,8 +38,13 @@ fi
 
 # supplement dir with git info
 repo_name=$(basename $(git remote show -n origin | grep Fetch | cut -d: -f2-))
-branch_name=$(git rev-parse --abbrev-ref HEAD)
-target_dir=$target_dir/$repo_name/$branch_name
+tag_name=$(git name-rev --name-only --tags --no-undefined HEAD 2>/dev/null | sed -n 's/^\([^^~]\{1,\}\)\(\^0\)\{0,1\}$/\1/p')
+if [[ $tag_name ]]; then
+    target_dir=$target_dir/$repo_name/$tag_name
+else
+    branch_name=$(git rev-parse --abbrev-ref HEAD)
+    target_dir=$target_dir/$repo_name/$branch_name
+fi
 
 if [ ! -d "$target_dir" ]; then
     mkdir -p $target_dir
