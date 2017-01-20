@@ -64,6 +64,18 @@ public:
     using prefix_type = prefix;
     using suffix_type = suffix;
 
+    /**
+     * @brief Allocates a **memory_block** with configured affixes.
+     * 
+     * @details
+     * Allocates a **memory block** of the given size using underlying **allocator**. 
+     * Additionally **prefix** and **suffix** objects are constructed before and after returned
+     * memory block. These can be used for any purpose - tracking, debugging buffer 
+     * under and overrun issues.    
+     * 
+     * @return An instance of **memory_block** for the allocated block or null block 
+     * for situations when allocation is not possible.
+     */
     memory_block allocate(std::size_t size);
     void deallocate(memory_block& block);
 
