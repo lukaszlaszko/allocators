@@ -11,8 +11,14 @@
 
 namespace boost { namespace memory {
 
+    
+/**
+ * @brief
+ * @details
+ * This helper is not intended to be used in the user code.
+ */
 template <typename bitmapped_block_type>
-class bitmapped_block_helper
+class bitmapped_block_helper final
 {
 public:
     bitmapped_block_helper(bitmapped_block_type& instance) noexcept;
@@ -38,6 +44,18 @@ private:
     bitmap_type& instance_;
 };
 
+/**
+ * @brief A continous memory block divided into equal number of sub-block with a bitmap
+ * indicating availability of such sub-blocks.
+ * 
+ * @details
+ * 
+ * @tparam allocator
+ * @tparam min
+ * @tparam max
+ * @tparam capacity
+ * @tparam alignment 
+ */
 template <
         typename allocator,
         std::size_t min,
@@ -50,6 +68,9 @@ public:
     static_assert(is_power_of_2(capacity), "capacity has to be a power of 2!");
     static_assert(alignment > 0, "alignment has to be equal or greater than 1!");
 
+    /**
+     * @brief A map of bit flags  
+     */
     template <std::size_t size>
     class bitmap
     {

@@ -20,7 +20,7 @@ namespace boost { namespace memory {
  * @tparam free_list_type A type of free_list which will be extended with this helper.
  */
 template <typename free_list_type>
-class free_list_helper
+class free_list_helper final
 {
 public:
     class iterator

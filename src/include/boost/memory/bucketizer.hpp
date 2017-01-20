@@ -12,7 +12,7 @@
 namespace boost { namespace memory {
     
 template <typename bucketizer_type>
-class bucketizer_helper
+class bucketizer_helper final
 {
 public:
     bucketizer_helper(bucketizer_type& instance);

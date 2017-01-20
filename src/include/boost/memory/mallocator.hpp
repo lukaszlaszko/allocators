@@ -27,6 +27,9 @@ public:
     /**
      * @brief Allocates a *memory_block* using *malloc*.
      * 
+     * @details
+     * 
+     * 
      * @param size
      * @return 
      */

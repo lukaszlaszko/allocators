@@ -33,8 +33,15 @@ void destruct_at(memory_block& block, std::size_t offset);
 template <>
 void destruct_at<void>(memory_block& block, std::size_t offset);
 
+/**
+ * @brief Helper type exposing some of **affix_allocator** internals.
+ * 
+ * @details
+ * This type is not intended to be used from the user code. Instead it allows to 
+ * access private member of **affix_allocator** in unit tests. 
+ */
 template <typename affix_allocator_type>
-class affix_allocator_helper
+class affix_allocator_helper final
 {
 public:
     affix_allocator_helper(affix_allocator_type& instance);
@@ -46,8 +53,7 @@ private:
 };
 
 /**
- * @brief An allocator providing support for prefix and suffix objects composition
- * on locations neighbouring to the allocated block.
+ * @brief Allocator adding prefix and suffix objects in boundries of  allocated block.
  * 
  * @details
  * 
