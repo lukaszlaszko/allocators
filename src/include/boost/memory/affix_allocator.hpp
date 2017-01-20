@@ -45,6 +45,23 @@ private:
     affix_allocator_type& instance_;
 };
 
+/**
+ * @brief An allocator providing support for prefix and suffix objects composition
+ * on locations neighbouring to the allocated block.
+ * 
+ * @details
+ * 
+ * @tparam allocator The underlying allocator performing physical **memory_block**
+ * allocation for the requested block, prefix and suffix.
+ * @tparam prefix Prefix type, it has to be a default constructable type. An instance of 
+ * this type will be constructed just before requested block on **allocate** 
+ * and destroyed on **deallocate**. 
+ * @tparam suffix  Suffix type, it has to be a default constructable type. An instance of
+ * this type will be constructed just before requested block on **allocate** 
+ * and destroyed on **deallocate**.
+ * @tparam verify A boolean parameter indicating if prefix/suffix destructors should be
+ * invoked on **deallocate**.  
+ */
 template <
         typename allocator,
         typename prefix,
@@ -77,8 +94,29 @@ public:
      * for situations when allocation is not possible.
      */
     memory_block allocate(std::size_t size);
+    
+    /**
+     * @brief Deallocates the given **memory_block**
+     * 
+     * @details
+     * Attempts to deallocate the given memory block by destroying **prefix** and 
+     * **suffix** instances affiliated to this block, but only if **verify**==*true*.
+     * **memory_block** is reclaimed only if it is owned by the underlying allocator.
+     * 
+     * @param block The **memory_block** to deallocate.
+     */
     void deallocate(memory_block& block);
 
+    /**
+     * @brief Determines if the given **memory_block** is owned by this allocator.
+     * 
+     * @details 
+     * Ownership is determined by checking ownership of the underlying allocator 
+     * for the complete block with defined **prefix** and **suffix**.
+     * 
+     * @param block
+     * @return *true* if the block is owned by this allocator, *false* otherwise.
+     */
     bool owns(memory_block& block);
 
 private:
@@ -94,7 +132,6 @@ private:
     static void verify_suffix(memory_block& block);
 
     allocator allocator_;
-    null_allocator null_allocator_;
 };
 
 } }
