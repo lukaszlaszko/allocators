@@ -38,7 +38,27 @@ struct memory_block
     {
         return reinterpret_cast<std::uint8_t*>(address);
     }
+    
+    /**
+     * @brief Checks if memory blocks are identical.
+     * 
+     * @param other A reference to another **memory_block**.
+     * @return *true* if memory block are identical, *false* otherwise. 
+     */
+    inline bool operator==(const memory_block& other) const
+    {
+        return address == other.address && size == other.size;
+    }
 };
+
+/**
+ * @brief An invalid memory block.
+ * 
+ * @details
+ * An instance of **memory_block** equal to **null_block** indicate a non-allocated 
+ * memory block. This can be a result if failed allocation or successful deallocation.
+ */
+static const memory_block null_block = { nullptr, 0ul };
     
 } }
 

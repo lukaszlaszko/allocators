@@ -35,10 +35,8 @@ inline memory_block mallocator::allocate(std::size_t size)
 
 inline void mallocator::deallocate(memory_block& block)
 {
-    free(block.address);
-    
-    block.address = nullptr;
-    block.size = 0ul;
+    free(block.address);   
+    block = null_block;
 }
 
 inline bool mallocator::owns(memory_block& block)

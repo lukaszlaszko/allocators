@@ -76,7 +76,7 @@ inline memory_block affix_allocator<
         verify>::allocate(std::size_t size)
 {
     auto block = allocator_.allocate(size_of_allocation(size));
-    if (null_allocator_.owns(block))
+    if (block == null_block)
         return block;
 
     construct_prefix(block);

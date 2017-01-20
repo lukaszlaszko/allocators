@@ -26,7 +26,7 @@ inline memory_block stack_allocator<capacity, alignment>::allocate(std::size_t s
     }
     else
     {
-        return null_allocator_.allocate();
+        return null_block;
     }
 }
 

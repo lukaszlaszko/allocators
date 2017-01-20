@@ -154,7 +154,7 @@ inline void free_list<
         current_node->next_ = head_;
         head_ = current_node;
         
-        block = { nullptr, 0ul };
+        block = null_block;
     }
 }
 

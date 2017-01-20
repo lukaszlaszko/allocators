@@ -9,7 +9,7 @@ namespace boost { namespace memory {
   
 inline memory_block null_allocator::allocate(std::size_t size)
 {
-    return { nullptr, 0ul };
+    return null_block;
 }
 
 inline void null_allocator::deallocate(memory_block& block)

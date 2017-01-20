@@ -103,7 +103,6 @@ private:
     friend bitmapped_block_helper<this_bitmapped_block>;
 
     allocator allocator_;
-    null_allocator null_allocator_;
     
     memory_block allocated_block_ { nullptr, 0ul };
     bitmap_type* bitmap_ { nullptr };

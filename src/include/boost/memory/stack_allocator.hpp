@@ -31,7 +31,7 @@ public:
      * reserved by this allocator. The location is aligned according to value of 
      * *alignment* template parameter.
      * @param size The size of block to be allocated.
-     * @return A valid *memory_block* definition or { nullptr, 0ul } if memory block
+     * @return A valid **memory_block** definition or **null_block** if memory block
      * can't be allocated. 
      */
     memory_block allocate(std::size_t size);
@@ -52,8 +52,6 @@ public:
 private:
     std::uint8_t reserved_block_[capacity];
     std::uint8_t* current_ { align_forward<alignment>(reserved_block_) };
-    
-    null_allocator null_allocator_;
 };
 
 } }

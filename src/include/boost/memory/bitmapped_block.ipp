@@ -184,7 +184,7 @@ inline memory_block bitmapped_block<
         alignment>::allocate(std::size_t size)
 {
     if (size < min || max < size)
-        return null_allocator_.allocate();
+        return null_block;
     
     if (allocated_block_ == nullptr)
     {
@@ -207,7 +207,7 @@ inline memory_block bitmapped_block<
     }
     else
     {
-        return null_allocator_.allocate();
+        return null_block;
     }
 }
 
@@ -231,7 +231,7 @@ inline void bitmapped_block<
         auto index = offset / aligned_max_size;
         
         bitmap_->reset(index);
-        null_allocator_.deallocate(block);
+        block = null_block;
     }
 }
 
