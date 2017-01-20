@@ -7,7 +7,7 @@ while [[ $# -gt 0 ]]; do
         -v|--verbose)
         verbose=1
         ;;
-        # This is an arg value type option. Will catch -o value or --output-file value
+        # This is an arg value type option. Will catch -t value or --targetdir value
         -t|--targetdir)
         shift # past the key and to the value
         target_dir="$1"
@@ -30,11 +30,12 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 echoerr() { printf "%s\n" "$*" >&2; }
 echoverbose() { if [[ ${verbose+x} ]]; then printf "%s\n" "$*" >&2; fi }
-# cleanup() 
-# {
-#     # cleanup code
-# }
-# trap cleanup 0
+
+# verify arguments
+if [[ ! ${target_dir+x} ]]; then
+    echoerr "-t|--targetdir is missing!"
+    exit 1
+fi
 
 # directories
 export repository_dir=$(git rev-parse --show-toplevel)
