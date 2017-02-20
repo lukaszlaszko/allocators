@@ -1,4 +1,5 @@
-#include <boost/memory/allocators.hpp>
+#include <boost/memory.hpp>
+#include <boost/memory/operators.hpp>
 
 #include <iostream>
 #include <memory>
