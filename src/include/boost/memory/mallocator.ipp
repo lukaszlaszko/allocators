@@ -13,7 +13,7 @@
 namespace boost { namespace memory {
 
     
-mallocator* mallocator::self_allocate()
+inline mallocator* mallocator::self_allocate()
 {
     auto result = malloc(sizeof(mallocator));
     if (result == NULL)
