@@ -27,7 +27,8 @@ Allocators which maybe supplemented in the future:
 
 All header files composing on this library are located in **src/include/boost/memory**. It is suffices to clone this repository and add **src/include** to the list of include directories minded during compilation of your project. For example look into [CMakeLists.txt from composition sample](https://bitbucket.org/lukaszlaszko/allocators/raw/HEAD/samples/composition/CMakeLists.txt).
 
-The most convenient way of using the library is presented in provided sample applications under **samples** directory. Thus including a single header file **boost/memory/allocators.hpp** and using following macros:
+The library defines replacement operators [new](http://www.cplusplus.com/reference/new/operator%20new/), [new array](http://www.cplusplus.com/reference/new/operator%20new[]/), [delete](http://www.cplusplus.com/reference/new/operator%20delete/) and [delete array](http://www.cplusplus.com/reference/new/operator%20delete[]/). All of them are activated when **boost/memory/operators.hpp** is included. 
+Behavior of the operators can be controlled with macros:
 
 * **DEFINE_ALLOCATOR** which should be instantiated in the declaration space of the main source file of the application in which we wish to replace default **new** and **delete** operators with our own, using supplied compassable allocator as a replacement for the default c++ allocation strategy. Should we trace use of the custom allocator through the overridden operator **DEFINE_ALLOCATOR_WITH_TRACE** macro has to be used instead.
 
