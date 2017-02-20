@@ -1,4 +1,5 @@
-#include <boost/memory/allocators.hpp>
+#include <boost/memory.hpp>
+#include <boost/memory/operators.hpp>
 
 #include <iostream>
 #include <memory>
@@ -29,6 +30,8 @@ int main(int argc, char** argv)
     vector<int> some_vector;
     some_vector.push_back(1);
     some_vector.push_back(1);
+    
+    int* numbers = new int[3];
 
     return 0;
 }

@@ -1,3 +1,7 @@
+[![Sources](https://img.shields.io/badge/bitbucket-sources-green.svg?style=flat)](https://bitbucket.org/lukaszlaszko/allocators/)
+[![Pipelines](https://img.shields.io/badge/bitbucket-pipelines-blue.svg?style=flat)](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/)
+[![Documentation](https://img.shields.io/badge/bitbucket-documentation-orange.svg?
+style=flat)](http://lukaszlaszko.bitbucket.io/allocators.git/master)
 ## Motivation ##
 
 This repository provides implementation of composable allocators described by [Andrei Alexandrescu](http://erdani.com) on [CppCon 2015](https://www.youtube.com/watch?v=LIb3L4vKZ7U)
@@ -21,9 +25,21 @@ Allocators which maybe supplemented in the future:
 
 ##Usage##
 
-All header files composing on this library are located in **src/include/boost/memory**. It is suffices to clone this repository and add **src/include** to the list of include directories minded during compilation of your project. For example look into [CMakeLists.txt from composition sample](https://bitbucket.org/lukaszlaszko/allocators/raw/HEAD/samples/composition/CMakeLists.txt).
+All header files composing on this library are located in **src/include/boost/memory**. It suffices to clone this repository and add **src/include** to the list of include directories minded during compilation of your project. For example look into [CMakeLists.txt from composition sample](https://bitbucket.org/lukaszlaszko/allocators/raw/HEAD/samples/composition/CMakeLists.txt).
 
-The most convenient way of using the library is presented in provided sample applications under **samples** directory. Thus including a single header file **boost/memory/allocators.hpp** and using following macros:
+Implemented allocators then can be used in the code after inclusion of **boost/memory.hpp** header:
+    
+    #include <boost/memory.hpp>
+    ...
+
+    using namespace boost::memory;
+
+    stack_allocator<1024> allocator;
+    auto block = allocator.allocate(512);
+    ...
+
+The library defines replacement operators [new](http://www.cplusplus.com/reference/new/operator%20new/), [new array](http://www.cplusplus.com/reference/new/operator%20new[]/), [delete](http://www.cplusplus.com/reference/new/operator%20delete/) and [delete array](http://www.cplusplus.com/reference/new/operator%20delete[]/). All of them are activated when **boost/memory/operators.hpp** is included. 
+Behavior of the operators can be controlled with macros:
 
 * **DEFINE_ALLOCATOR** which should be instantiated in the declaration space of the main source file of the application in which we wish to replace default **new** and **delete** operators with our own, using supplied compassable allocator as a replacement for the default c++ allocation strategy. Should we trace use of the custom allocator through the overridden operator **DEFINE_ALLOCATOR_WITH_TRACE** macro has to be used instead.
 
@@ -39,24 +55,20 @@ To build:
 
 1. Clone this repository
 
-        #!shell
         $ git clone https://bitbucket.org/lukaszlaszko/allocators.git 
 
 2. Configure with cmake
     
-        #!shell
         $ mkdir bin
         $ cd bin
         $ cmake ..
 
 3. Build with cmake
 
-        #!shell
         $ cmake --build . --target all
 
 4. Run unit tests
 
-        #!shell
         $ ctest --verbose
 
 Latest bitbucket build results can be observed under this [link](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/).
