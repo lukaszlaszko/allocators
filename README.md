@@ -25,7 +25,18 @@ Allocators which maybe supplemented in the future:
 
 ##Usage##
 
-All header files composing on this library are located in **src/include/boost/memory**. It is suffices to clone this repository and add **src/include** to the list of include directories minded during compilation of your project. For example look into [CMakeLists.txt from composition sample](https://bitbucket.org/lukaszlaszko/allocators/raw/HEAD/samples/composition/CMakeLists.txt).
+All header files composing on this library are located in **src/include/boost/memory**. It suffices to clone this repository and add **src/include** to the list of include directories minded during compilation of your project. For example look into [CMakeLists.txt from composition sample](https://bitbucket.org/lukaszlaszko/allocators/raw/HEAD/samples/composition/CMakeLists.txt).
+
+Implemented allocators then can be used in the code after inclusion of **boost/memory.hpp** header:
+    
+    #include <boost/memory.hpp>
+    ...
+
+    using namespace boost::memory;
+
+    stack_allocator<1024> allocator;
+    auto block = allocator.allocate(512);
+    ...
 
 The library defines replacement operators [new](http://www.cplusplus.com/reference/new/operator%20new/), [new array](http://www.cplusplus.com/reference/new/operator%20new[]/), [delete](http://www.cplusplus.com/reference/new/operator%20delete/) and [delete array](http://www.cplusplus.com/reference/new/operator%20delete[]/). All of them are activated when **boost/memory/operators.hpp** is included. 
 Behavior of the operators can be controlled with macros:
@@ -44,24 +55,20 @@ To build:
 
 1. Clone this repository
 
-        #!shell
         $ git clone https://bitbucket.org/lukaszlaszko/allocators.git 
 
 2. Configure with cmake
     
-        #!shell
         $ mkdir bin
         $ cd bin
         $ cmake ..
 
 3. Build with cmake
 
-        #!shell
         $ cmake --build . --target all
 
 4. Run unit tests
 
-        #!shell
         $ ctest --verbose
 
 Latest bitbucket build results can be observed under this [link](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/).
