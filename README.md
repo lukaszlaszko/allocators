@@ -1,3 +1,7 @@
+[![Sources](https://img.shields.io/badge/bitbucket-sources-green.svg?style=flat)](https://bitbucket.org/lukaszlaszko/allocators/)
+[![Pipelines](https://img.shields.io/badge/bitbucket-pipelines-blue.svg?style=flat)](https://bitbucket.org/lukaszlaszko/allocators/addon/pipelines/home#!/)
+[![Documentation](https://img.shields.io/badge/bitbucket-documentation-orange.svg?
+style=flat)](http://lukaszlaszko.bitbucket.io/allocators.git/master)
 ## Motivation ##
 
 This repository provides implementation of composable allocators described by [Andrei Alexandrescu](http://erdani.com) on [CppCon 2015](https://www.youtube.com/watch?v=LIb3L4vKZ7U)
