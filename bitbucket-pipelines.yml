@@ -13,5 +13,5 @@ pipelines:
             - llvm-profdata-3.9 merge -sparse default.profraw -o default.profdata
             - llvm-cov-3.9 report ./tests --instr-profile=default.profdata
             - popd
-            - docs/build_docs.sh -t bin_docs
-            - docs/push_docs.sh -c -r git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git -d bin_docs/* 
+            - timeout 1m external/scripts/docs/build_docs.sh -t bin_docs
+            - timeout 1m external/scripts/docs/push_docs.sh -c -r git@bitbucket.org:lukaszlaszko/lukaszlaszko.bitbucket.org.git -d bin_docs/*
