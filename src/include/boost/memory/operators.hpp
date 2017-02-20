@@ -5,6 +5,7 @@
 #pragma once
 
 #include <boost/utils/backtrace.hpp>
+#include <boost/utils/nop_unique_ptr.hpp>
 
 #include <memory>
 #include <new>
@@ -12,15 +13,6 @@
 #include <utility>
 #include <stdexcept>
 
-
-struct nop
-{
-    template <typename T>
-    void operator() (T const &) const noexcept { }
-};
-
-template <typename T>
-using nop_unique_ptr = std::unique_ptr<T, nop>;
 
 // DEFINE_ALLOCATOR macro
 #ifndef DEFINE_ALLOCATOR
@@ -36,8 +28,8 @@ using size_map_type = std::unordered_map< \
         std::equal_to<size_map_key_type>>; \
 \
 boost::memory::mallocator default_allocator; \
-thread_local nop_unique_ptr<allocator_type> allocator_handle; \
-thread_local nop_unique_ptr<size_map_type> size_map_handle; \
+thread_local boost::utils::nop_unique_ptr<allocator_type> allocator_handle; \
+thread_local boost::utils::nop_unique_ptr<size_map_type> size_map_handle; \
 thread_local bool allocation_pending { false }; \
 \
 void* operator new(std::size_t sz) \
