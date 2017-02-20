@@ -30,6 +30,8 @@ int main(int argc, char** argv)
     vector<int> some_vector;
     some_vector.push_back(1);
     some_vector.push_back(1);
+    
+    int* numbers = new int[3];
 
     return 0;
 }
