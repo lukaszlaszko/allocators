@@ -8,7 +8,19 @@ namespace boost { namespace memory {
  * @brief Provides a convenient [RAII-style]
  * (https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization) mechanism
  * for owning a memory block.
- *
+ * 
+ * @details
+ * RAII-style binds lifespan of the allocated block with the guard object. Usage example:
+ * @code
+ * #include <boost/memory.hpp>
+ * ...
+ * using namespace boost::memory;
+ * 
+ * mallocator allocator;
+ * memory_block_guard allocation(allocator, 200ul);
+ * 
+ * ... 
+ * @endcode 
  */
 template <typename allocator_type>
 class memory_block_guard final
