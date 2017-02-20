@@ -1,5 +1,8 @@
 #pragma once
 
+#include <memory>
+
+
 namespace boost { namespace utils {
   
 struct nop
