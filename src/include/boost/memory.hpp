@@ -10,3 +10,5 @@
 #include <boost/memory/affix_allocator.hpp>
 #include <boost/memory/bitmapped_block.hpp>
 
+#include <boost/memory/memory_block_guard.hpp>
+
