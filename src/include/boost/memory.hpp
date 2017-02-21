@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/memory/buffer_ref.hpp>
+
 #include <boost/memory/null_allocator.hpp>
 #include <boost/memory/mallocator.hpp>
 #include <boost/memory/fallback_allocator.hpp>
