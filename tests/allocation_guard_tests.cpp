@@ -1,5 +1,5 @@
 #include <boost/memory/memory_block.hpp>
-#include <boost/memory/memory_block_guard.hpp>
+#include <boost/memory/allocation_guard.hpp>
 #include <boost/memory/stack_allocator.hpp>
 
 #include <gtest/gtest.h>
@@ -22,7 +22,7 @@ public:
 
 TEST(memory_block_guard, create_destroy)
 {
-    using guard_type = memory_block_guard<mock_allocator>;
+    using guard_type = allocation_guard<mock_allocator>;
     
     vector<array<uint8_t, 128>> blocks;
     blocks.reserve(1);

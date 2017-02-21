@@ -13,7 +13,7 @@ add_executable(tests
         bucketizer_tests.cpp
         affix_allocator_tests.cpp
         bitmapped_block_tests.cpp
-        memory_block_guard_tests.cpp)
+        allocation_guard_tests.cpp)
 
 target_link_libraries(tests
         ${GTEST_LIBRARIES}
