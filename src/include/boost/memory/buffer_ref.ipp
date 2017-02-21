@@ -36,11 +36,10 @@ inline buffer_ref::buffer_ref(pointer_type* pointer)
     
 }
 
-template <typename reference_type>
-inline buffer_ref::buffer_ref(reference_type& reference)
+inline buffer_ref::buffer_ref(const memory_block& block)
     :
-        data_(reinterpret_cast<void*>(&reference)),
-        length_(sizeof(reference_type))
+        data_(block.address),
+        length_(block.size)
 {
     
 }
@@ -67,6 +66,11 @@ inline pointer_type buffer_ref::as_pointer()
 inline size_t buffer_ref::length() const
 {
     return length_;
+}
+
+inline buffer_ref buffer_ref::subbuf(size_t length) const
+{
+    return buffer_ref(data_, length);
 }
     
 } }

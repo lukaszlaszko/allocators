@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/memory/memory_block.hpp>
+
 #include <cstdio>
 
 
@@ -42,14 +44,10 @@ public:
     buffer_ref(pointer_type* pointer);
     
     /**
-     * @brief Creates a buffer reference from a reference.
-     * @details
-     * This constructor retrieves an adress of the reference and stores it with the 
-     * referenced type size.
-     * @param reference A reference the buffer is pointing at.
+     * @brief Creates a buffer reference from a memory block definition.
+     * @param reference A **memory_block** the buffer is pointing at.
      */
-    template <typename reference_type>
-    buffer_ref(reference_type& reference);
+    buffer_ref(const memory_block& block);
     
     /**
      * @brief Obtains a reference to the underlying memory block treating it as
@@ -71,6 +69,13 @@ public:
      * @brief Number of bytes in the buffer.
      */
     size_t length() const;
+    
+    /**
+     * @brief Obtains a sub buffer with the given size. 
+     * @param length The size of sub buffer.
+     * @return A sub buffer definition.
+     */
+    buffer_ref subbuf(size_t length) const;
 
 private:
     void* data_;
