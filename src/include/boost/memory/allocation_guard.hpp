@@ -17,13 +17,13 @@ namespace boost { namespace memory {
  * using namespace boost::memory;
  * 
  * mallocator allocator;
- * memory_block_guard allocation(allocator, 200ul);
+ * allocation_guard allocation(allocator, 200ul);
  * 
  * ... 
  * @endcode 
  */
 template <typename allocator_type>
-class memory_block_guard final
+class allocation_guard final
 {
 public:
     /**
@@ -35,16 +35,16 @@ public:
      * @param allocator The allocator instance to use.
      * @param size Desired amount of memory to allocate.
      */
-    memory_block_guard(allocator_type& allocator, size_t size);
+    allocation_guard(allocator_type& allocator, size_t size);
     /**
      * @brief Deallocates the block.
      */
-    ~memory_block_guard();
+    ~allocation_guard();
 
     /**
      * @brief Not-copy assignable.
      */
-    memory_block_guard& operator=(const memory_block_guard& other) = delete;
+    allocation_guard& operator=(const allocation_guard& other) = delete;
 
     /**
      * @brief Information about allocated underlying memory block.
@@ -60,4 +60,4 @@ private:
 
 } }
 
-#include "memory_block_guard.ipp"
+#include "allocation_guard.ipp"
