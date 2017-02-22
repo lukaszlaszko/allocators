@@ -3,6 +3,7 @@
 #include <boost/memory/memory_block.hpp>
 
 #include <cstdio>
+#include <string>
 
 
 namespace boost { namespace memory {
@@ -48,6 +49,12 @@ public:
      * @param reference A **memory_block** the buffer is pointing at.
      */
     buffer_ref(const memory_block& block);
+    
+    /**
+     * @brief Creates a buffer reference for a string.
+     * @param s A string to get the buffer definition from.
+     */
+    buffer_ref(const std::string& s);
     
     /**
      * @brief Obtains a reference to the underlying memory block treating it as

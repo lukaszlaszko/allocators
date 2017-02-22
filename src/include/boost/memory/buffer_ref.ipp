@@ -44,6 +44,14 @@ inline buffer_ref::buffer_ref(const memory_block& block)
     
 }
 
+inline buffer_ref::buffer_ref(const std::string& s)
+    :
+        data_(reinterpret_cast<void*>(const_cast<char*>(s.data()))),
+        length_(s.length())
+{
+    
+}
+
 template <typename reference_type>
 inline reference_type buffer_ref::as()
 {
