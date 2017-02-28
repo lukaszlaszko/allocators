@@ -14,36 +14,36 @@
 namespace boost { namespace memory {
 
 template <typename type>
-constexpr std::size_t size_of()
+inline constexpr std::size_t size_of()
 {
     return sizeof(type);
 }
 
 template <>
-constexpr std::size_t size_of<void>()
+inline constexpr std::size_t size_of<void>()
 {
     return 0ul;
 }
 
 template <typename type>
-void construct_at(memory_block& block, std::size_t offset)
+inline void construct_at(memory_block& block, std::size_t offset)
 {
     new (block + offset) type();
 }
 
 template <>
-void construct_at<void>(memory_block& block, std::size_t offset)
+inline void construct_at<void>(memory_block& block, std::size_t offset)
 {
 }
 
 template <typename type>
-void destruct_at(memory_block& block, std::size_t offset)
+inline void destruct_at(memory_block& block, std::size_t offset)
 {
     reinterpret_cast<type*>(block + offset)->~type();
 }
 
 template <>
-void destruct_at<void>(memory_block& block, std::size_t offset)
+inline void destruct_at<void>(memory_block& block, std::size_t offset)
 {
 }
 

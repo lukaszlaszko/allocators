@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/memory/buffer_ref.hpp>
+
 #include <boost/memory/null_allocator.hpp>
 #include <boost/memory/mallocator.hpp>
 #include <boost/memory/fallback_allocator.hpp>
@@ -9,4 +11,6 @@
 #include <boost/memory/bucketizer.hpp>
 #include <boost/memory/affix_allocator.hpp>
 #include <boost/memory/bitmapped_block.hpp>
+
+#include <boost/memory/allocation_guard.hpp>
 
