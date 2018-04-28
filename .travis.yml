@@ -1,0 +1,24 @@
+language: cpp
+
+dist: xenial
+sudo: false
+
+compiler:
+  - clang
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - gcc-6
+      - g++-6
+      - cmake
+      - libboost-all-dev
+      - ninja-build
+      - doxygen
+
+script:
+  - cmake -GNinja
+  - cmake --build . --target all
+
