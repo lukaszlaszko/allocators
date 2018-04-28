@@ -1,3 +1,3 @@
 [submodule "external/scripts"]
 	path = external/scripts
-	url = https://bitbucket.org/lukaszlaszko/scripts.git
+	url = https://github.com/lukaszlaszko/scripts.git
