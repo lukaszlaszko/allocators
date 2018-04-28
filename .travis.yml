@@ -1,7 +1,7 @@
 language: cpp
 
-dist: xenial
-sudo: false
+dist: trusty
+sudo: true
 
 compiler:
   - clang
@@ -17,6 +17,10 @@ addons:
       - libboost-all-dev
       - ninja-build
       - doxygen
+
+#before_install:
+#  - sudo apt-get -qq update
+#  - sudo apt-get install -y cmake ninja-build doxygen
 
 script:
   - cmake -GNinja
