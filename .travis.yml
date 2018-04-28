@@ -1,28 +1,59 @@
 language: cpp
 
+os: linux
 dist: trusty
-sudo: true
+sudo: false
 
-compiler:
-  - clang
+matrix:
+  include:
+    - env: COMPILER=clang++-4.0
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-4.0
+          packages:
+            - ninja-build
+            - libboost-all-dev
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-6
-      - g++-6
-      - cmake
-      - libboost-all-dev
-      - ninja-build
-      - doxygen
+    - env: COMPILER=clang++-5.0
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - ninja-build
+            - libboost-all-dev
 
-#before_install:
-#  - sudo apt-get -qq update
-#  - sudo apt-get install -y cmake ninja-build doxygen
+    - env: COMPILER=g++-6
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+            - ninja-build
+            - libboost-all-dev
+
+    - env: COMPILER=g++-7
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+            - ninja-build
+            - libboost-all-dev
+
+install:
+  - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
+  - ${CXX} --version
 
 script:
-  - cmake -GNinja
+  - mkdir bin
+  - cd bin
+  - cmake -GNinja ..
   - cmake --build . --target all
+  - ctest --verbose
 
