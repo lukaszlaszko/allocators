@@ -5,7 +5,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: C_COMPILER=clang-4.0 CXX_COMPILER=clang++-4.0 BUILD_TYPE=Debug
+      env: CC=clang-4.0 CXX=clang++-4.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -19,7 +19,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: C_COMPILER=clang-5.0 CXX_COMPILER=clang++-5.0 BUILD_TYPE=Debug
+      env: CC=clang-5.0 CXX=clang++-5.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -33,7 +33,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: C_COMPILER=gcc-6 CXX_COMPILER=g++-6 BUILD_TYPE=Debug
+      env: CC=gcc-6 CXX=g++-6 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -46,7 +46,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: C_COMPILER=gcc-7 CXX_COMPILER=g++-7 BUILD_TYPE=Debug
+      env: CC=gcc-7 CXX=g++-7 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -68,18 +68,6 @@ before_install:
       fi
 
 install:
-  ############################################################################
-  # Setup default versions and override compiler if needed
-  ############################################################################
-  - |
-      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-        if [[ "${C_COMPILER}" != "" ]]; then export CC=${C_COMPILER}; fi
-        ${CC} --version
-
-        if [[ "${CXX_COMPILER}" != "" ]]; then export CXX=${CXX_COMPILER}; fi
-        ${CXX} --version
-      fi
-
   - |
       if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
         brew install boost
