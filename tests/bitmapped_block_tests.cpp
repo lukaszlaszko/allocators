@@ -96,8 +96,7 @@ TEST(bitmapped_block_bitmap, claim_success)
     size_t index = 0;
     ASSERT_TRUE(bitmap.claim(index));
     ASSERT_EQ(index, 5ul);
-    ASSERT_EQ(helper.flags_count(), 2u);
-    ASSERT_EQ(helper.get_flag(1) & 0b11111111, 0b11111111);
+    ASSERT_EQ(helper.flags_count(), 1u);
 }
 
 TEST(bitmapped_block_bitmap, claim_failure)
@@ -114,7 +113,7 @@ TEST(bitmapped_block_bitmap, claim_failure)
 
     size_t index = 0;
     ASSERT_FALSE(bitmap.claim(index));
-    ASSERT_EQ(helper.get_flag(1) & 0b11111111, 0b11111111);
+    ASSERT_EQ(helper.flags_count(), 1u);
 }
 
 TEST(bitmapped_block, allocate_under_min)
