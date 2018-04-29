@@ -1,12 +1,11 @@
 language: cpp
 
-os: linux
-dist: trusty
-sudo: false
-
 matrix:
   include:
-    - env: COMPILER=clang++-4.0 BUILD_TYPE=Debug
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: COMPILER=clang++-4.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -17,7 +16,10 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=clang++-5.0 BUILD_TYPE=Debug
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: COMPILER=clang++-5.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -28,7 +30,10 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=g++-6 BUILD_TYPE=Debug
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: COMPILER=g++-6 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -38,7 +43,10 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=g++-7 BUILD_TYPE=Debug
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: COMPILER=g++-7 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -48,9 +56,32 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
+    - os: osx
+      osx_image: xcode9.3
+      env: BUILD_TYPE=Debug
+
+
+before_install:
+  - |
+      if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+        brew update
+      fi
+
 install:
-  - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
-  - ${CXX} --version
+  ############################################################################
+  # Setup default versions and override compiler if needed
+  ############################################################################
+  - |
+      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+        if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
+        ${CXX} --version
+      fi
+
+  - |
+      if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+        brew install boost
+        brew install ninja
+      fi
 
 script:
   - mkdir bin
