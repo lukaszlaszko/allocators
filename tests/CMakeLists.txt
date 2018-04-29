@@ -1,7 +1,7 @@
 include_directories(${GTEST_INCLUDE_DIRS} ${GMOCK_INCLUDE_DIRS})
 
 file(GLOB ALLOCATORS_HEADERS ${CMAKE_SOURCE_DIR}/src/include/*)
-add_executable(tests
+add_executable(unit_tests
         ${ALLOCATORS_HEADERS}
         buffer_ref_tests.cpp
         alignment_tests.cpp
@@ -16,12 +16,12 @@ add_executable(tests
         bitmapped_block_tests.cpp
         allocation_guard_tests.cpp)
 
-target_link_libraries(tests
+target_link_libraries(unit_tests
         ${GTEST_LIBRARIES}
         ${GMOCK_LIBRARIES}
         ${CMAKE_THREAD_LIBS_INIT})
 
-add_dependencies(tests 
+add_dependencies(unit_tests
         ${GTEST_DEPENDENCY})
 
-add_test(NAME run-tests COMMAND tests)
+add_test(NAME run-tests COMMAND unit_tests)
