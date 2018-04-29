@@ -33,7 +33,7 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: C_COMPILER=gcc-6 COMPILER=g++-6 BUILD_TYPE=Debug
+      env: C_COMPILER=gcc-6 CXX_COMPILER=g++-6 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
