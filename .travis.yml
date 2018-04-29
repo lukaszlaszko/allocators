@@ -6,7 +6,7 @@ sudo: false
 
 matrix:
   include:
-    - env: COMPILER=clang++-4.0
+    - env: COMPILER=clang++-4.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -17,7 +17,7 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=clang++-5.0
+    - env: COMPILER=clang++-5.0 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -28,7 +28,7 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=g++-6
+    - env: COMPILER=g++-6 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -38,7 +38,7 @@ matrix:
             - ninja-build
             - libboost-all-dev
 
-    - env: COMPILER=g++-7
+    - env: COMPILER=g++-7 BUILD_TYPE=Debug
       addons:
         apt:
           sources:
@@ -55,7 +55,7 @@ install:
 script:
   - mkdir bin
   - cd bin
-  - cmake -GNinja ..
+  - cmake -GNinja -DCMAKE_BUILD_TYPE=${BUILD_TYPE} ..
   - cmake --build . --target all
   - ctest --verbose
 
